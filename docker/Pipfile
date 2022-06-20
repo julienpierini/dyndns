@@ -1,0 +1,12 @@
+[[source]]
+url = 'https://pypi.python.org/simple'
+verify_ssl = true
+name = 'pypi'
+
+[requires]
+python_version = '3.9'
+
+[packages]
+cloudflare = "==2.8.15"
+logger = "==1.4"
+requests = "==2.27.1"

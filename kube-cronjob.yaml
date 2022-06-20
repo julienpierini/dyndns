@@ -1,0 +1,35 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    app: cloudflare
+  name: dyndns-cronjob
+  namespace: default
+spec:
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    metadata:
+      labels:
+        app: cloudflare
+    spec:
+      backoffLimit: 1
+      template:
+        metadata:
+          labels:
+            app: cloudflare
+        spec:
+          containers:
+          - envFrom:
+            - secretRef:
+                name: cloudflare-api-token-secret
+            image: weylandmedia/dyndns:1.1
+            imagePullPolicy: IfNotPresent
+            name: dyndns-job
+          dnsPolicy: ClusterFirst
+          restartPolicy: Never
+  schedule: "*/5 * * * *"
+  startingDeadlineSeconds: 200
+  successfulJobsHistoryLimit: 1
+  suspend: false
